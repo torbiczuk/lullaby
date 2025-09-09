@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lullaby - Dostępność Biletów</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1 class="title">Lullaby</h1>
+            <p class="subtitle">Dostępność biletów na koncerty</p>
+        </header>
+
+        <div class="status-bar" id="statusBar">
+            <div class="status-indicator" id="statusIndicator"></div>
+            <span id="statusText">Ładowanie danych...</span>
+        </div>
+
+        <main class="main-content">
+            <div class="summary-card" id="summaryCard" style="display: none;">
+                <h2 class="card-title">Podsumowanie</h2>
+                <div class="summary-stats">
+                    <div class="stat">
+                        <span class="stat-value" id="totalFree">-</span>
+                        <span class="stat-label">Wolne miejsca</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-value" id="totalTaken">-</span>
+                        <span class="stat-label">Zajęte miejsca</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-value" id="totalAll">-</span>
+                        <span class="stat-label">Wszystkie miejsca</span>
+                    </div>
+                    <div class="stat highlight">
+                        <span class="stat-value" id="totalPercent">-</span>
+                        <span class="stat-label">% dostępnych</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="events-grid" id="eventsGrid">
+                <!-- Events will be populated here -->
+            </div>
+
+            <div class="loading" id="loading">
+                <div class="loading-spinner"></div>
+                <p>Pobieranie danych o dostępności biletów...</p>
+            </div>
+
+            <div class="error-message" id="errorMessage" style="display: none;">
+                <h3>Wystąpił błąd</h3>
+                <p id="errorText">Nie udało się pobrać danych o biletach.</p>
+                <button class="retry-button" onclick="loadData()">Spróbuj ponownie</button>
+            </div>
+        </main>
+
+        <footer class="footer">
+            <p>Dane odświeżane co 15 minut</p>
+            <p class="cache-info" id="cacheInfo"></p>
+        </footer>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+</body>
+</html>
