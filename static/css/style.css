@@ -363,3 +363,18 @@ body {
         margin-bottom: 2rem;
     }
 }
+
+@media (max-width: 480px) {
+    .summary-stats {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+    
+    .stat {
+        padding: 1rem;
+    }
+    
+    .stat-value {
+        font-size: 2rem;
+    }
+}
