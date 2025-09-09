@@ -40,7 +40,34 @@ python app.py
 http://localhost:5000
 ```
 
-## 🌐 Deployment na Replit
+## 🌐 Deployment na Render
+
+### Przygotowanie do deploymentu
+1. **Utwórz konto na [render.com](https://render.com)**
+2. **Połącz z GitHub/GitLab** - prześlij kod do repozytorium
+
+### Deploy na Render
+1. **Kliknij "New Web Service"**
+2. **Połącz repozytorium** z kodem aplikacji
+3. **Skonfiguruj deployment:**
+   - **Name**: `lullaby-tickets` (lub dowolna nazwa)
+   - **Environment**: `Python 3`
+   - **Build Command**: `pip install -r requirements.txt`
+   - **Start Command**: `gunicorn app:app -c gunicorn_config.py`
+   - **Instance Type**: `Free` (wystarczy do testów)
+
+### Alternatywny sposób uruchomienia
+Jeśli chcesz prostszy start command:
+```bash
+gunicorn app:app --bind 0.0.0.0:$PORT --workers 4
+```
+
+### Zmienne środowiskowe (opcjonalne)
+W Render możesz dodać:
+- `PORT` - automatycznie ustawiane przez Render
+- `FLASK_ENV` - ustaw na `production`
+
+## 🌐 Deployment na Replit (alternatywa)
 
 ### Metoda 1: Import z GitHub
 1. Wejdź na [replit.com](https://replit.com)
@@ -50,26 +77,11 @@ http://localhost:5000
 5. Kliknij "Import from GitHub"
 6. Kliknij przycisk "Run"
 
-### Metoda 2: Upload plików
-1. Utwórz nowy Repl (Python)
-2. Usuń domyślny `main.py`
-3. Prześlij wszystkie pliki projektu:
-   - `app.py`
-   - `scraper.py` 
-   - `requirements.txt`
-   - `.replit`
-   - katalog `templates/`
-   - katalog `static/`
-4. Kliknij "Run"
-
 ### Konfiguracja Replit
-Plik `.replit` już zawiera odpowiednią konfigurację:
+Plik `.replit` zawiera konfigurację dla development:
 ```toml
 run = "python app.py"
 language = "python3"
-
-[deployment]
-run = ["sh", "-c", "python app.py"]
 ```
 
 ## 📁 Struktura projektu
