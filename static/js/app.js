@@ -9,7 +9,7 @@ class TicketApp {
         this.errorMessage = document.getElementById('errorMessage');
         this.errorText = document.getElementById('errorText');
         this.cacheInfo = document.getElementById('cacheInfo');
-        
+
         this.init();
     }
 
@@ -22,7 +22,7 @@ class TicketApp {
     async loadData() {
         try {
             this.showLoading();
-            
+
             const response = await fetch('/api/seats');
             const result = await response.json();
 
@@ -44,7 +44,7 @@ class TicketApp {
         this.summaryCard.style.display = 'none';
         this.eventsGrid.style.display = 'none';
         this.errorMessage.style.display = 'none';
-        
+
         this.statusIndicator.className = 'status-indicator loading';
         this.statusText.textContent = 'Pobieranie danych...';
     }
@@ -59,15 +59,15 @@ class TicketApp {
         this.summaryCard.style.display = 'none';
         this.eventsGrid.style.display = 'none';
         this.errorMessage.style.display = 'block';
-        
+
         this.statusIndicator.className = 'status-indicator error';
         this.statusText.textContent = 'Błąd pobierania danych';
         this.errorText.textContent = errorMsg;
     }
 
     displayData(result) {
-        const { data, cached_at } = result;
-        const { events, summary } = data;
+        const {data, cached_at} = result;
+        const {events, summary} = data;
 
         this.loading.style.display = 'none';
         this.errorMessage.style.display = 'none';
@@ -118,9 +118,9 @@ class TicketApp {
 
     formatDate(dateString) {
         const date = new Date(dateString);
-        const options = { 
-            year: 'numeric', 
-            month: 'long', 
+        const options = {
+            year: 'numeric',
+            month: 'long',
             day: 'numeric',
             weekday: 'long'
         };
@@ -132,9 +132,18 @@ class TicketApp {
             const cachedDate = new Date(result.cached_at);
             const expiresDate = new Date(result.cache_expires_at);
             const now = new Date();
-            
+
+            console.log('Cache debug:', {
+                cached_at: result.cached_at,
+                cache_expires_at: result.cache_expires_at,
+                cachedDate: cachedDate.toISOString(),
+                expiresDate: expiresDate.toISOString(),
+                now: now.toISOString(),
+                timeDiff: (expiresDate - now) / 1000 / 60
+            });
+
             const timeUntilRefresh = Math.max(0, Math.ceil((expiresDate - now) / 1000 / 60));
-            
+
             this.cacheInfo.textContent = `Ostatnia aktualizacja: ${cachedDate.toLocaleString('pl-PL')} | Następna za: ${timeUntilRefresh} min`;
         }
     }

@@ -2,7 +2,7 @@ from flask import Flask, jsonify, render_template
 from flask_cors import CORS
 import asyncio
 import threading
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 from scraper import SeatScraper
 
 app = Flask(__name__)
@@ -18,7 +18,7 @@ def is_cache_valid():
     global cache_timestamp
     if cache_timestamp is None:
         return False
-    return datetime.now() - cache_timestamp < timedelta(seconds=CACHE_DURATION)
+    return datetime.now(timezone.utc) - cache_timestamp < timedelta(seconds=CACHE_DURATION)
 
 def run_async_scraping():
     loop = asyncio.new_event_loop()
@@ -32,7 +32,7 @@ def update_cache():
     global cache_data, cache_timestamp
     try:
         cache_data = run_async_scraping()
-        cache_timestamp = datetime.now()
+        cache_timestamp = datetime.now(timezone.utc)
         return True
     except Exception as e:
         print(f"Error updating cache: {e}")
